@@ -1,4 +1,5 @@
 import type { Constructor } from "./container.ts";
+import "reflect-metadata";
 
 export const INJECT_METADATA_KEY = "inject:paramtypes";
 
