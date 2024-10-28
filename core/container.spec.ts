@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-unused-vars
 import { assertEquals, assertThrows } from "@std/assert";
 import Container, { Injectable } from "./container.ts";
 
@@ -22,11 +23,11 @@ Deno.test("Container - when registering a singleton, it should return the same i
   container.clear();
 
   @Injectable({ singleton: true })
-  class _SingletonService {}
+  class SingletonService {}
 
   // Act
-  const instance1 = container.get<_SingletonService>("SingletonService");
-  const instance2 = container.get<_SingletonService>("SingletonService");
+  const instance1 = container.get<SingletonService>("SingletonService");
+  const instance2 = container.get<SingletonService>("SingletonService");
 
   // Assert
   assertEquals(instance1, instance2);
@@ -38,17 +39,17 @@ Deno.test("Container - when resolving a class with dependencies, it should injec
   container.clear();
 
   @Injectable()
-  class _DependencyService {
+  class DependencyService {
     public value = "dependency";
   }
 
   @Injectable()
-  class _TestService {
-    constructor(public dependency: _DependencyService) {}
+  class TestService {
+    constructor(public dependency: DependencyService) {}
   }
 
   // Act
-  const instance = container.get<_TestService>("TestService");
+  const instance = container.get<TestService>("TestService");
 
   // Assert
   assertEquals(instance.dependency.value, "dependency");
@@ -73,16 +74,16 @@ Deno.test("Container - when clearing the container, it should remove all registr
   container.clear();
 
   @Injectable()
-  class _TestService {}
+  class TestService {}
 
-  container.get<_TestService>("TestService");
+  container.get<TestService>("TestService");
 
   // Act
   container.clear();
 
   // Assert
   assertThrows(
-    () => container.get<_TestService>("TestService"),
+    () => container.get<TestService>("TestService"),
     Error,
     "No registration found for TestService",
   );
@@ -95,13 +96,13 @@ Deno.test("Container - when using multiple instances, it should return the same 
   container1.clear();
 
   @Injectable({ singleton: true })
-  class _SingletonService {
+  class SingletonService {
     public value = Math.random();
   }
 
   // Act
-  const instance1 = container1.get<_SingletonService>("SingletonService");
-  const instance2 = container2.get<_SingletonService>("SingletonService");
+  const instance1 = container1.get<SingletonService>("SingletonService");
+  const instance2 = container2.get<SingletonService>("SingletonService");
 
   // Assert
   assertEquals(instance1.value, instance2.value);
