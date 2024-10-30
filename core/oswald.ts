@@ -1,4 +1,4 @@
-import * as E from "https://esm.sh/fp-ts@2.16.9/lib/Either";
+import * as E from "fp-ts/lib/Either.js";
 import type {
   Command,
   CommandHandler,
